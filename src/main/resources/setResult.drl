@@ -1,0 +1,61 @@
+import java.util.List;
+
+import com.mybank.global.risk.credit.IntermediateValue;
+import com.mybank.global.risk.credit.ScoringResult;
+import com.mybank.global.risk.credit.KOCriterion;
+import com.mybank.global.risk.credit.CreditApplication;
+
+rule "SetResult-IntermediateValues"
+when
+    $resultVal: IntermediateValue()
+then
+
+    // System.out.println ( "Found:"  + $o  + ':'  + $o.getClass().getCanonicalName() );
+
+    List<Object> ol = (List<Object>)kcontext.getKnowledgeRuntime().getGlobal("result");
+    
+
+    if  ( ol != null ) { ol.add ($resultVal); }
+
+end
+
+
+rule "SetResult-ScoringResults"
+when
+    $resultVal: ScoringResult()
+then
+
+    // System.out.println ( "Found:"  + $o  + ':'  + $o.getClass().getCanonicalName() );
+
+    List<Object> ol = (List<Object>)kcontext.getKnowledgeRuntime().getGlobal("result");
+    
+    if  ( ol != null ) { ol.add ($resultVal); }
+
+end
+
+rule "SetResult-KOCriterion"
+when
+    $resultVal: KOCriterion()
+then
+
+    // System.out.println ( "Found:"  + $o  + ':'  + $o.getClass().getCanonicalName() );
+
+    List<Object> ol = (List<Object>)kcontext.getKnowledgeRuntime().getGlobal("result");
+    
+    if  ( ol != null ) { ol.add ($resultVal); }
+
+end
+
+
+rule "SetResult-CreditApplication"
+when
+    $resultVal: CreditApplication()
+then
+
+    // System.out.println ( "Found:"  + $o  + ':'  + $o.getClass().getCanonicalName() );
+
+    List<Object> ol = (List<Object>)kcontext.getKnowledgeRuntime().getGlobal("result");
+    
+    if  ( ol != null ) { ol.add ($resultVal); }
+
+end

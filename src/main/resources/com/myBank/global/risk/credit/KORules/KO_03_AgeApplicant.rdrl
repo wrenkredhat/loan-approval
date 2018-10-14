@@ -1,0 +1,15 @@
+package com.myBank.global.risk.credit.KORules;
+
+import com.mybank.global.risk.credit.IntermediateValue;
+import com.mybank.global.risk.credit.KOCriterion;
+
+rule "KO_03_AgeApplicant"
+	dialect "mvel"
+	when
+		IntermediateValue( packageName == "PERSON_DATA" , valueName == "AGE" , intValue < 18I )
+	then
+		KOCriterion fact0 = new KOCriterion();
+		fact0.setExplanation( "person too young" );
+		fact0.setIsSoftKO( true );
+		insert( fact0 );
+end

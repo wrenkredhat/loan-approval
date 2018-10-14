@@ -1,0 +1,24 @@
+package com.myBank.global.risk.credit.Scoring;
+
+import java.math.BigInteger;
+import com.mybank.global.risk.credit.IntermediateValue;
+import com.mybank.global.risk.credit.KOCriterion;
+
+rule "SC_99_CalcualteScoringTotal.rdrl"
+	dialect "mvel"
+	agenda-group "Scoring-Total"
+	when
+		$tp : BigInteger( ) from accumulate ( IntermediateValue( packageName == "SCORING" , $val : intValue),
+			init( $result=new BigInteger( "0" ); ),
+			action( $result=$result.add( $val ); ),
+			reverse( $result=$result.subtract( $val ); ),
+			result( $result )
+) 
+	then
+		System.out.println ( "$p-gdr" +   $tp );
+		IntermediateValue fact0 = new IntermediateValue();
+		fact0.setPackageName( "SCORING_TOTAL" );
+		fact0.setValueName( "TOTAL" );
+		fact0.setIntValue( $tp );
+		insert( fact0 );
+end

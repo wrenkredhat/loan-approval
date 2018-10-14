@@ -1,0 +1,29 @@
+package com.myBank.global.risk.credit.SelfInformation;
+
+import java.lang.Number;
+import java.math.BigDecimal;
+import com.mybank.global.risk.credit.SelfInformation;
+import com.mybank.global.risk.credit.IntermediateValue;
+
+rule "SI-CalculateSimpleValues"
+	dialect "mvel"
+	agenda-group "SelfInformation"
+	when
+		SelfInformation( $oap : oldAgePension, $oissues : otherIssues, $income : income)
+	then
+		IntermediateValue fact0 = new IntermediateValue();
+		fact0.setPackageName( "SI_INCOME" );
+		fact0.setValueName( "income" );
+		fact0.setDecimalValue( $income );
+		insert( fact0 );
+		IntermediateValue fact1 = new IntermediateValue();
+		fact1.setPackageName( "SI_INCOME" );
+		fact1.setValueName( "oap" );
+		fact1.setDecimalValue( $oap );
+		insert( fact1 );
+		IntermediateValue fact2 = new IntermediateValue();
+		fact2.setPackageName( "SI_EXPENSES" );
+		fact2.setValueName( "oissues" );
+		fact2.setDecimalValue( $oissues );
+		insert( fact2 );
+end

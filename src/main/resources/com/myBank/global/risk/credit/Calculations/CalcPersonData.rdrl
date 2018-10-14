@@ -1,0 +1,26 @@
+package com.myBank.global.risk.credit.Calculations;
+
+import com.mybank.global.risk.credit.Person;
+import com.mybank.global.risk.credit.IntermediateValue;
+import com.mybank.global.risk.credit.CreditApplication;
+
+rule "CalcPersonData"
+	dialect "mvel"
+	agenda-group "Scoring"
+	when
+		$p : Person( $brthDt : birthDate, $occstdt : occupationStartDate)
+		CreditApplication( $refDt : referenceDate)
+	then
+		IntermediateValue fact0 = new IntermediateValue();
+		fact0.setPackageName( "PERSON_DATA" );
+		fact0.setValueName( "AGE" );
+		fact0.setIntValue( CalcHelper.diffInYears( $brthDt, $refDt  ) );
+		fact0.setRefObject( $p );
+		insert( fact0 );
+		IntermediateValue fact1 = new IntermediateValue();
+		fact1.setPackageName( "PERSON_DATA" );
+		fact1.setValueName( "OCCUPATION_DURATION" );
+		fact1.setIntValue( CalcHelper.diffInMonths( $occstdt, $refDt  ) );
+		fact1.setRefObject( $p );
+		insert( fact1 );
+end

@@ -1,0 +1,22 @@
+package com.myBank.global.risk.credit.SelfInformation;
+
+import java.math.BigDecimal;
+import com.mybank.global.risk.credit.IntermediateValue;
+
+rule "SI-CalculateIncome"
+	dialect "mvel"
+	agenda-group "SelfInforamtion-Total"
+	when
+		$sum : BigDecimal( ) from accumulate ( IntermediateValue( packageName == "SI_INCOME" , $decVal : decimalValue),
+			init( BigDecimal $result = new BigDecimal("0.0") ),
+			action( $result.add ( $decVal ) ),
+			reverse( $result.subtract ( $decVal ) ),
+			result( $result )
+) 
+	then
+		IntermediateValue fact0 = new IntermediateValue();
+		fact0.setPackageName( "SI-TOTAL" );
+		fact0.setStringValue( "SI-INCOME" );
+		fact0.setDecimalValue( $sum );
+		insert( fact0 );
+end

@@ -1,0 +1,14 @@
+package com.myBank.global.risk.credit.SelfInformation;
+
+import com.mybank.global.risk.credit.IntermediateValue;
+
+rule "SI-CalculateFreeAmout"
+	dialect "mvel"
+	when
+		IntermediateValue( packageName == "SI-TOTAL" , valueName == "SI-INCOME" , $income : decimalValue)
+		IntermediateValue( packageName == "SI-Total" , valueName == "SI-INCOME" , $expenses : decimalValue)
+	then
+		IntermediateValue fact0 = new IntermediateValue();
+		fact0.setDecimalValue( $income -$expenses );
+		insert( fact0 );
+end

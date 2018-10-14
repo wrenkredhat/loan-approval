@@ -1,0 +1,17 @@
+// Package Default
+
+rule "decison-process"
+when
+    eval(true)
+then
+    // Dies ist ein Stack -- daher umgekerhrte Reihenfolge
+    
+    kcontext.getKnowledgeRuntime().getAgenda().getAgendaGroup( "KO-Rules" ).setFocus();
+    kcontext.getKnowledgeRuntime().getAgenda().getAgendaGroup( "Scoring-Total" ).setFocus();
+    kcontext.getKnowledgeRuntime().getAgenda().getAgendaGroup( "Scoring" ).setFocus();
+    kcontext.getKnowledgeRuntime().getAgenda().getAgendaGroup( "SelfInforamtion-Total" ).setFocus();
+    kcontext.getKnowledgeRuntime().getAgenda().getAgendaGroup( "SelfInformation" ).setFocus();
+    
+    System.out.println ( "process-rule!" );
+    
+end

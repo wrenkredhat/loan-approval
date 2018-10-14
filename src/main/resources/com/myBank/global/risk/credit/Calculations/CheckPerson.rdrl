@@ -1,0 +1,20 @@
+package com.myBank.global.risk.credit.Calculations;
+
+import java.lang.Number;
+import com.mybank.global.risk.credit.Person;
+
+rule "CheckPerson"
+	dialect "mvel"
+	salience 1000
+	no-loop true
+	agenda-group "Scoring"
+	when
+		$p : Person( occupationStartDate == null )
+	then
+		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MMM-yyyy");
+		System.out.println ( "OCCSD: " + $p.getOccupationStartDate() );
+		modify( $p ) {
+				setOccupationStartDate( new java.util.Date() )
+		}
+		$p.setOccupationStartDate( new java.util.Date() ); update($p);  System.out.println ( "OCCSD: " + $p.getOccupationStartDate() );  
+end

@@ -1,0 +1,14 @@
+package com.myBank.global.risk.credit.KORules;
+
+import com.mybank.global.risk.credit.KOCriterion;
+import com.mybank.global.risk.credit.CreditApplication;
+
+rule "KO_ConfirmLoan"
+	dialect "mvel"
+	no-loop true
+	when
+		ca : CreditApplication( )
+		KOCriterion( )
+	then
+		ca.setAppoved( false );
+end
